@@ -17,7 +17,9 @@ GET  http://localhost:1323/products
 POST http://localhost:1323/products HTTP/1.1
 Content-Type: application/json
 
+
 {
-"name": "สินค้าที่ 3",
-"price": "100"
+"name": "สินค้าที่ ",
+"price": 100
 }
+

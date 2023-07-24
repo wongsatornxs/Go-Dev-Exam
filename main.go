@@ -17,15 +17,20 @@ type (
 		Name  string `json:"name"`
 		Price int    `json:"price"`
 	}
+	SaveProductRespone struct{
+		Message string `json:"message"`
+		Data Product `json:"data"`
+	}
 )
+
 
 var products []Product
 
 
 
+
 func main() {
-	products = append(products, Product{ID: 1, Name: "สินค้าที่ 1 ", Price: 100})
-	products = append(products, Product{ID: 2, Name: "สินค้าที่ 2 ", Price: 200})
+	
 	// Echo instance
 	e := echo.New()
 
@@ -63,13 +68,32 @@ func getProducts(c echo.Context) error {
 	return c.JSON(http.StatusOK, products)
 }
 func createProduct(c echo.Context) error {
-	var newTask Product
-	err := c.Bind(&newTask)
+	var newProduct Product
+	err := c.Bind(&newProduct)
 	if err != nil {
 		return c.String(http.StatusBadRequest, "Invalid request payload")
 	}
 
-	newTask.ID = len(products) + 1
-	products = append(products, newTask)
-	return c.JSON(http.StatusCreated, newTask)
+	newProduct.ID = len(products) + 1
+	products = append(products, newProduct)
+	responese := SaveProductRespone{
+		Message: "add product successfully",
+		Data: newProduct,
+	}
+	return c.JSON(http.StatusCreated, responese)
+}
+func init(){
+	
+	initProducts := []Product{{
+		ID:    1,
+		Name:  "สินค้าที่ 1",
+		Price: 100,
+	}, {
+
+		ID:    2,
+		Name:  "สินค้าที่ 2",
+		Price: 200,
+	}}
+	products = append(products, initProducts...)
+	
 }
